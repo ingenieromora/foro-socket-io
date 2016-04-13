@@ -11,12 +11,17 @@ io.listen(8080);
 console.log("Server escuchando en 8080")
 
 io.on('connection', function (socket) {
-  socket.on('question', function (data) {
-  	socket.emit('serverHabla', { hello: 'world' });
-    console.log(data);
-  });
-});
 
-io.on('question', function (pregunta) {
-	console.log(pregunta)
+	socket.on('question', function (pregunta) {
+		socket.emit('nuevaPregunta', pregunta);
+		console.log('Nueva Pregunta %s: , Emitter: %s', pregunta.question, pregunta.emitter);
+
+	});
+
+
+	socket.on('preguntaRespondida', function (pregunta) {
+	  	socket.emit('nuevaPregunta', pregunta);
+	    console.log(pregunta);
+	});
+
 });
